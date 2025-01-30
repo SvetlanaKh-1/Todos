@@ -7,7 +7,7 @@ public class TodosTest {
 
     SimpleTask simpleTask = new SimpleTask(6, "Купить продукты");
 
-    String[] subtasks = {"Молоко", "Яйца", "Хлеб", "Подсолнечное масло", "Сливочное масло"};
+    String[] subtasks = {"Молоко", "Яйца", "Хлеб", "Подсолнечное масло", "Сливочное масло", "Молочные продукты"};
     Epic epic = new Epic(10, subtasks);
 
     Meeting meeting = new Meeting(
@@ -32,13 +32,24 @@ public class TodosTest {
     }
 
     @Test
+    public void shouldSearchMatchesForSeveralTasks() {
+        todos.add(simpleTask);
+        todos.add(epic);
+        todos.add(meeting);
+
+        Task[] expected = {simpleTask, epic};
+        Task[] actual = todos.search("продукты");
+        Assertions.assertArrayEquals(expected, actual);
+    }
+
+    @Test
     public void shouldSearchMatchesForSimpleTask() {
         todos.add(simpleTask);
         todos.add(epic);
         todos.add(meeting);
 
         Task[] expected = {simpleTask};
-        Task[] actual = todos.search("продукты");
+        Task[] actual = todos.search("Купить");
         Assertions.assertArrayEquals(expected, actual);
     }
 
